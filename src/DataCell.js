@@ -84,6 +84,11 @@ export default class DataCell extends PureComponent {
   }
 
   handleCommit(value, e) {
+    const { committing } = this.state;
+    // Prevent processing another commit while already commiting.
+    if (committing) {
+      return;
+    }
     const { onChange, onNavigate } = this.props;
     if (value !== initialData(this.props)) {
       this.setState({ value, committing: true });
@@ -98,6 +103,11 @@ export default class DataCell extends PureComponent {
   }
 
   handleRevert() {
+    const { reverting } = this.state;
+    // Prevent processing another revert while already reverting.
+    if (reverting) {
+      return;
+    }
     this.setState({ reverting: true });
     this.props.onRevert();
   }
