@@ -156,6 +156,14 @@ export default class DataCell extends PureComponent {
       return component;
     }
   }
+  
+  guardHandlerisEditing(handler) {
+    return (...args) => {
+      if(this.props.editing) {
+        handler(...args);
+      }
+    };
+  }
 
   renderEditor(editing, cell, row, col, dataEditor) {
     if (editing) {
@@ -166,10 +174,10 @@ export default class DataCell extends PureComponent {
           row={row}
           col={col}
           value={this.state.value}
-          onChange={this.handleChange}
-          onCommit={this.handleCommit}
-          onRevert={this.handleRevert}
-          onKeyDown={this.handleKey}
+          onChange={this.guardHandlerisEditing(this.handleChange)}
+          onCommit={this.guardHandlerisEditing(this.handleCommit)}
+          onRevert={this.guardHandlerisEditing(this.handleRevert)}
+          onKeyDown={this.guardHandlerisEditing(this.handleKey)}
         />
       );
     }
